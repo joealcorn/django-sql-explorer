@@ -5,6 +5,8 @@ $.ajaxSetup({
     }
 });
 
+google.load("visualization", "1", {packages:["corechart", "charteditor"]});
+
 function ExplorerEditor(queryId) {
     this.queryId = queryId;
     this.$table = $('#preview');
@@ -265,6 +267,11 @@ ExplorerEditor.prototype.bind = function() {
             pivotState = {onRefresh: this.savePivotState};
         }
     }
+
+    pivotState.renderers = $.extend(
+      $.pivotUtilities.renderers,
+      $.pivotUtilities.gchart_renderers,
+    );
 
     $(".pivot-table").pivotUI(this.$table, pivotState);
     if (navToPivot) {
